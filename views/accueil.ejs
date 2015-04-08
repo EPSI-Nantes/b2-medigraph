@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Principale</title>
+    <link rel="stylesheet" href="ressources/style.css"/>
+    <meta charset="utf8"/>
+</head>
+<body>
+    <div><!-- Bloc : Liste des médicaments inscrits dans la BDD -->
+      <%= include function/listMedic %>
+    </div>
+
+      <div><!-- Bloc Titre -->
+        <p>MediGraph</p> <!-- bouton de retour à la page d'accueil -->
+      </div>
+
+    <div><!-- Bloc : Liste des matériaux -->
+      <a href='medic/TestMed'>Lien vers medic/TestMed</a>
+    </div>
+
+    <div><!-- Bloc : top médicaments les plus rentables -->
+      <table></table>
+    </div>
+</body>
+</html>

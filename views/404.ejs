@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC >
+<html>
+<head>
+    <title>Principale</title>
+    <link href="css.css" rel="stylesheet" />
+    <meta charset="utf8" />
+</head>
+<body>
+    <div><!-- Bloc : Liste des médicaments inscrits dans la BDD -->
+      <%= include function/listMedic %>
+    </div>
+
+    <a href=''>
+      <div><!-- Bloc Titre -->
+        <h1>MediGraph</h1><!-- bouton de retour à la page d'accueil -->
+      </div>
+    </a>
+
+    <div><!-- Bloc : Affichage de la page : err 404 -->
+      <p>page introuvable ! <a href='..'>Retour à la page d'accueil</a></p>
+    </div>
+
+    <div><!-- Bloc : top médicaments les plus rentables -->
+      <table></table>
+    </div>
+</body>
+</html>
