@@ -1,35 +1,31 @@
+'use strict';
+
 var express = require('express');
 var path = require('path');
 
 var app = express();
 
 //à l'adresse '/' le serveur redirige vers accueil.ejs
-app.get('/', function(req, res) {
-    res.render('accueil.ejs');
+app.get('/', function (req, res) {
+  res.render('accueil.ejs');
 });
-
 
 //à l'adresse '/medic' le serveur exige un argument de type string qui correspond au nom d'un médicament
 //le serveur redirige vers medic.ejs
-app.get('/medic/:medic', function(req, res) {
-    res.render('medic.ejs', {medicament: req.params.medic});
+app.get('/medic/:medic', function (req, res) {
+  res.render('medic.ejs', {
+    medicament: req.params.medic
+  });
 });
 
-//pour toutes les autres adresses, le serveur redirige vers la page 404.ejs
-app.use(function(req, res, next){
-    res.render('404.ejs');
-});
+// Pour toutes les autres adresses, le serveur redirige vers la page 404.ejs
 
 //Donne l'accès au serveur au lien externes (fichiers css, images...)
 app.use(express.static('ressources'));
 
-app.use(express.static(path.join(__dirname, 'ressources')));
-
-
-
-
-
-
+app.use(function (req, res, next) {
+  res.render('404.ejs');
+});
 
 var async = require('async');
 
@@ -72,12 +68,6 @@ async.map(metals, iterator, done);
 
 
 
-
-
-
-
-
-
-
 //Le serveur écoute sur le port 8080
 app.listen(8080);
+console.log('Listening on %s', 8080);
