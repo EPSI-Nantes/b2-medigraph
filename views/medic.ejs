@@ -1,29 +1,23 @@
-<!DOCTYPE html PUBLIC >
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Medicament</title>
-    <link href="css.css" rel="stylesheet" />
-    <meta charset="utf8" />
+  <title>Principale</title>
+  <link rel="stylesheet" href="/style.css"/>
+  <meta charset="utf8"/>
 </head>
 <body>
-    <div><!-- Bloc : Liste des médicaments inscrits dans la BDD -->
-      <%= include function/listMedic %>
-    </div>
+  <div id="titre">
+    <a href="/">
+      <img src="/images/medigraph.jpg"> <!-- bouton de retour à la page d'accueil -->
+    </a>
+  </div>
 
+  <div id="menu_gauche"><!-- Bloc : Liste des médicaments inscrits dans la BDD -->
+    <%= include function/listMedic %>
+  </div>
 
-    <div><!-- Bloc Titre -->
-      <a href='..'>
-        <h1>MediGraph</h1><!-- bouton de retour à la page d'accueil -->
-      </a>
-    </div>
-
-
-    <div><!-- Bloc : Affichage d'un médicament -->
-      <table></table>
-    </div>
-
-    <div><!-- Bloc : top médicaments les plus rentables -->
-      <table></table>
-    </div>
+  <div id="corps"><!-- Bloc : Liste des matériaux -->
+    <p>medic</p>
+  </div>
 </body>
 </html>

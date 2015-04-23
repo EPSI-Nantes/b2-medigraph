@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Principale</title>
-    <link rel="stylesheet" href="/style.css"/>
-    <meta charset="utf8"/>
+  <title>Principale</title>
+  <link rel="stylesheet" href="/style.css"/>
+  <meta charset="utf8"/>
 </head>
 <body>
-    <div><!-- Bloc : Liste des médicaments inscrits dans la BDD -->
-      <%= include function/listMedic %>
-    </div>
+  <div id="titre">
+    <a href="/">
+      <img src="/images/medigraph.jpg"> <!-- bouton de retour à la page d'accueil -->
+    </a>
+  </div>
 
-      <div><!-- Bloc Titre -->
-        <p>MediGraph</p> <!-- bouton de retour à la page d'accueil -->
-      </div>
+  <div id="menu_gauche"><!-- Bloc : Liste des médicaments inscrits dans la BDD -->
+    <%= include function/listMedic %>
+  </div>
 
-    <div><!-- Bloc : Liste des matériaux -->
-      <a href='medic/TestMed'>Lien vers medic/TestMed</a>
-    </div>
-
-    <div><!-- Bloc : top médicaments les plus rentables -->
-      <table></table>
-    </div>
+  <div id="corps"><!-- Bloc : Liste des matériaux -->
+    <a href='medic/med1'>Lien vers medic/med1</a>
+  </div>
 </body>
 </html>
