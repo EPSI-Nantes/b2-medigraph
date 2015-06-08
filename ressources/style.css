@@ -1,28 +1,66 @@
-body
+html {
+  background-color:#E8E8E8;
+}
+body {
+  margin: auto;
+  margin-top:5%;
+}
+footer
 {
-  background-color:lightgrey;
-  height:100%;
+  position: absolute;
+  bottom: 0;
+  left:0;
+  right:0;
+  margin:5px;
+  background-color: white;
+  border-radius: 1px;
+  outline: 2.5px dashed #808080;
+  outline-offset: 1.2px;
 }
 #menu_gauche
 {
-  background-color: white;
-  border: 1px black groove;
-  border-radius: 10px;
+  float:left;
   width:15%;
-}
-#titre
-{
-  margin:5px;
+  height:75%;
+  margin:1%;
   background-color: white;
-  border: 1px black groove;
-  border-radius: 10px;
-  width:500px;
+  border-radius: 2px;
+  -webkit-box-shadow: 2px 2px 2px 2px #666666;
+  box-shadow: 2px 2px 2px 2px #666666;
+}
+#centre
+{
+  float:left;
+  width:60%;
+  height:75%;
+  margin:1%;
 }
 #corps
 {
-  margin:5px;
   background-color: white;
-  border: 1px black groove;
-  border-radius: 10px;
-
+  border-radius: 1px;
+  outline: 2.5px dashed #808080;
+  outline-offset: 1.2px;
+}
+#titre
+{
+  font-weight:normal;
+  color:#6E6E6E;
+  letter-spacing:0pt;
+  word-spacing:1pt;
+  font-size:50px;
+  text-align:center;
+  font-family:comic sans, comic sans ms, cursive, verdana, arial, sans-serif;
+  line-height:1;
+}
+#menu_droite
+{
+  float:left;
+  width:15%;
+  height:75%;
+  margin:1%;
+  background-color: white;
+  border-radius: 2px;
+  -webkit-box-shadow: 2px 2px 2px 2px #666666;
+  box-shadow: 2px 2px 2px 2px #666666;
 }

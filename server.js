@@ -12,6 +12,12 @@ var app = express();
 //Donne l'accès au serveur au lien externes (fichiers css, images...)
 app.use(express.static('ressources'));
 
+
+
+//tableau de médicaments
+var tabMed = [];
+var tabSpeMed = [];
+
 //Récupère les prix des métaux dans un tableau
 var metals = [
   new BoursoramaRetriever('Or', '_GC'),
@@ -36,8 +42,8 @@ function iterator(metal, fDone) {
 }
 
 
-//fonction qui permet de récupérer la liste des médicaments
-function listemed() {
+
+function GetMedicaments(callback){
   var connection = mysql.createConnection({
     host     : 'localhost',
     database : 'medigraph',
@@ -45,29 +51,26 @@ function listemed() {
     password : ''
   });
   connection.connect();
-//la ligne suivante ne récupère pas tab
-  var tab = connection.query('SELECT * FROM medicament', function(err, rows, fields) {
+  connection.query('SELECT * FROM medicament ORDER BY prix DESC', function(err, rows, fields) {
     if (err) {
-      console.error('error connecting: ' + err.stack);
-      return;
+      throw err;
+    } else {
+      callback(rows);
+      connection.end();
     }
-    var tab= [];
-    rows.forEach(function logArrayElements(element, index, array) {
-      tab.push([element.nom, element.prix])
-    });
-    connection.end();
-    //forEach qui affiche les médicaments dans la console
-    tab.forEach(function logArrayElements(element, index, array) {
-      console.log("medicament : " + element[0] + "             prix : " + element[1]);
-    });
-    return tab;
+  }
+  );
+};
+
+function callbackGetMedicament(rows){
+  rows.forEach(function logArrayElements(element, index, array) {
+  tabMed.push([element.nom, element.prix]);
+  console.log("encapsulation...");
   });
-  return tab;
-}
+  console.log("encapsulation terminée.");
+};
 
-
-//fonction qui permet de récupérer les infos d'un médicament
-function recup_med(med) {
+function recup_med(med, callback) {
   var connection = mysql.createConnection({
     host     : 'localhost',
     database : 'medigraph',
@@ -75,73 +78,92 @@ function recup_med(med) {
     password : ''
   });
   connection.connect();
-  //la ligne suivante ne récupère pas tab
-  var tab = connection.query('SELECT * FROM quantite WHERE medicament = "'+ med + '"' , function(err, rows, fields) {
+  connection.query('SELECT * FROM quantite WHERE medicament = "'+ med + '"' , function(err, rows, fields) {
     if (err) {
-      console.error('error connecting: ' + err.stack);
-      return;
+      throw err;
     }
-    if (rows == 0)
-    {
-      console.log('Le médicament'+med+' n\'existe pas dans la base de données.')
-      return;
+    else {
+      if (rows == 0)
+      {
+        console.log('Le médicament'+med+' n\'existe pas dans la base de données.')
+        return;
+      }
+      connection.end();
+      callback(rows, med, connection, recup_med_prixMateriaux);
     }
-    var tab= [];
-    rows.forEach(function logArrayElements(element, index, array) {
-      tab.push([element.materiaux, element.quantite])
-    });
-
-    //Affichage du médicament dans la console
-    console.log("medicament : "+ med);
-    console.log(med + " est composé de :")
-    tab.forEach(function logArrayElements(element, index, array) {
-      console.log("- " + element[0] + "             quantite : " + element[1]);
-      var a = element[0];
-      connection.query('SELECT prix FROM materiaux WHERE nom = "'+ a + '"' , function(err, rows, fields) {
-        if (err) {
-          console.error('error connecting: ' + err.stack);
-          return;
-        }
-        console.log("prix : "+rows[0].prix);
-      });
-    });
-    connection.end();
-
-    return tab;
   });
-  return tab;
-}
+};
 
+function stock_med(rows, med, connection, callback){
+  rows.forEach(function logArrayElements(element, index, array) {
+    tabSpeMed.push([element.materiaux, element.quantite])
+  });
+  console.log("Encapsulation medic terminée.");
+  callback(rows, tabSpeMed, stock_med_prixMateriaux, connection);
+};
+
+function recup_med_prixMateriaux(rows, tabSpeMed, callback, connection){
+  var connection = mysql.createConnection({
+    host     : 'localhost',
+    database : 'medigraph',
+    user     : 'root',
+    password : ''
+  });
+  connection.connect();
+  tabSpeMed.forEach(function logArrayElements(element, index, array) {
+    connection.query('SELECT prix FROM materiaux WHERE nom = "'+ element[0] + '"' , function(err, rows, fields) {
+      if (err) {
+        throw err;
+      }
+      callback(rows, index);
+    });
+  });
+  connection.end();
+  console.log("Encapsulation medic avec prix terminée.");
+};
+
+function stock_med_prixMateriaux(rows,index){
+    tabSpeMed[index][2] = rows[0].prix;
+    console.log(rows[0]);
+};
+
+/*function remplissage_tabSpeMed(callback){
+  callback(stock_med);
+}*/
 
 //à l'adresse '/' le serveur redirige vers accueil.ejs
 //On passe en paramètre la liste des métaux
 app.get('/', function (req, res) {
-  listemed();
-  //tab.forEach(function logArrayElements(element, index, array) {
-  //  console.log("medicament : " + element[0] + "             prix : " + element[1]);
-  //});
-  async.map(metals, /*tab,*/ iterator, function done(err, metalsWithPrice) {
+  tabMed = [];
+  GetMedicaments(callbackGetMedicament);
+  async.map(metals, iterator, function done(err, metalsWithPrice) {
     return res.render('accueil.ejs', {
       error: err || '',
-      metals: metalsWithPrice
-      //,      liste_medicement: tab
+      metals: metalsWithPrice,
+      liste_medicament: tabMed
     });
-  });
 
+    });
 });
 
 //à l'adresse '/medic' le serveur exige un argument de type string qui correspond au nom d'un médicament
 //le serveur redirige vers medic.ejs
 //On passe en paramètre la liste des métaux
 app.get('/medic/:medic', function (req, res) {
-  recup_med(req.params.medic);
-    async.map(metals, iterator, function done(err, metalsWithPrice) {
-    return res.render('medic.ejs',  {
-      error: err || '',
-      metals: metalsWithPrice,
-      medicament: req.params.medic
-    });
+  tabSpeMed = [];
+  tabMed = [];
+  GetMedicaments(callbackGetMedicament);
+  recup_med(req.params.medic, stock_med);
+  async.map(metals, iterator, function done(err, metalsWithPrice) {
+  return res.render('medic.ejs',  {
+    error: err || '',
+    metals: metalsWithPrice,
+    liste_medicament: tabMed,
+    medicament: req.params.medic,
+    tabSpeMed : tabSpeMed
   });
+});
+
 });
 
 
@@ -152,10 +174,12 @@ app.use(function (req, res, next) {
   async.map(metals, iterator, function done(err, metalsWithPrice) {
     return res.render('404.ejs', {
       error: err || '',
-      metals: metalsWithPrice
+      metals: metalsWithPrice,
+      liste_medicament: tabMed
     });
   });
 });
+
 
 //Le serveur écoute sur le port 8080
 app.listen(8080);

@@ -1,0 +1,11 @@
+<table>
+  <tr>
+    <th>Matériaux</th>
+    <th>Quantitée</th>
+    <th>Prix</th>
+  </tr>
+  <%= error %>
+  <% for(var i=0; i<tabSpeMed.length; i++) {%>
+  <tr><td><%= tabSpeMed[i][0]%></td><td><%=tabSpeMed[i][1]%> </td><td><%=tabSpeMed[i][2]+'€'%></td></tr>
+  <% } %>
+</table>
