@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= medicament %></title>
+  <title>Principale</title>
   <link rel="stylesheet" href="/style.css"/>
   <meta charset="utf8"/>
 </head>
 <body>
-    <div id="menu_gauche"><!-- Bloc : Liste des médicaments inscrits dans la BDD -->
-      <%= include function/listMedic %>
-    </div>
-    <div id="centre">
-      <div>
-        <p id="titre">Medigraph</p>
-      </div>
-      <div id="corps"><!-- Bloc : Liste des matériaux -->
-        <%= include function/affMedic %>
-      </div>
-    </div>
-    <div id="menu_droite"><!-- Bloc : Liste des médicaments inscrits dans la BDD -->
-    <%= include function/listMetaux %>
-    </div>
+  <div id="titre">
+    <a href="/">
+      <img src="/images/medigraph.jpg"> <!-- bouton de retour à la page d'accueil -->
+    </a>
+  </div>
+
+  <div id="menu_gauche"><!-- Bloc : Liste des médicaments inscrits dans la BDD -->
+    <%= include function/listMedic %>
+  </div>
+
+  <div id="corps"><!-- Bloc : Liste des matériaux -->
+    <p>medic</p>
+  </div>
 </body>
-<footer>
-  <p>Développé par Victor GODIER<br>victor.godier@gmail.com     http://victorgodier.wordpress.com</p>
-</footer>
 </html>
