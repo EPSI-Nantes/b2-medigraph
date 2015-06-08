@@ -1,10 +1,12 @@
 <table>
   <tr>
-    <th>Métal</th>
+    <th>Médicaments</th>
     <th>Prix</th>
   </tr>
   <%= error %>
-  <% for(var i=0; i<metals.length; i++) {%>
-  <tr><td><%= metals[i].name%></td><td><%=metals[i].price%> </td></tr>
+  <% for(var i=0; i<liste_medicament.length; i++) {%>
+  <tr><td>
+  <a href='/medic/<%=liste_medicament[i][0]%>'>
+  <%= liste_medicament[i][0]%></a></td><td><%=liste_medicament[i][1]+'€'%> </td></tr>
   <% } %>
 </table>
